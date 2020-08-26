@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>Book Overview</title>
+        <link rel="stylesheet" type="text/css" href="library.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <h1>Books</h1>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th># of copies</th>
+                <th>Buy new copy</th>
+            </tr>
+            <tr th:each="book: ${allBooks}">
+                <td>
+                    <a th:href="@{/books/{bookId}(bookId=${book.bookId})}"><span th:text="${book.title}"></span></a>
+                </td>
+                <td th:text="${book.author.name}" />
+                <td th:text="${book.noCopies}" />
+                <td><a th:href="@{/copy/add/{bookId}(bookId=${book.bookId})}">Add copy</a></td>
+            </tr>
+        </table>
+
+        <div>
+            <a th:href="@{/books/add}">Add book</a>
+        </div>
+
+        <div>
+            <a th:href="@{/author}">Add author</a>
+        </div>
+
+        <div sec:authorize="hasRole('ADMIN')"><!-- extra dependency! thymeleaf-extras-springsecurity5 -->
+            <a th:href="@{/user/new}">Add user</a>
+        </div>
+
+        <div>
+            <a th:href="@{/logout}">Log out</a>
+        </div>
+    </body>
+</html>

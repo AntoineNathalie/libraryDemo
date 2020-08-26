@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Book Overview</title>
+    <link rel="stylesheet" type="text/css" href="library.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<!--/*@thymesVar id="book" type="com.vvits.miw.se9.libraryDemo.model.Book"*/-->
+<h1 th:text="${book.title}">Book: </h1>
+
+<h2>Book details:</h2>
+<table>
+    <tr>
+        <td>Title</td><td th:text="${book.title}"></td>
+    </tr>
+    <tr>
+        <td>Author</td><td th:text="${book.author.name}"></td>
+    </tr>
+    <tr>
+        <td>Number of Copies</td><td th:text="${book.noCopies}"></td>
+    </tr>
+</table>
+
+<h2>Copies of this book</h2>
+<table>
+    <tr>
+        <th>Copy Id</th>
+        <th>Available</th>
+        <th></th>
+    </tr>
+    <tr th:each="copy: ${book.copies}">
+        <td th:text="${copy.copyId}"></td>
+        <td th:text="${copy.available}"></td>
+        <td><a th:href="@{/copy/delete/{copyId}(copyId=${copy.copyId})}" class="button">Delete</a></td>
+    </tr>
+</table>
+
+
+<div>
+    <a th:href="@{/books}">Back to overview</a>.
+</div>
+
+<div sec:authorize="hasRole('ADMIN')"><!-- extra dependency! thymeleaf-extras-springsecurity5 -->
+    <a th:href="@{/user/new}">Add user</a>
+</div>
+
+</body>
+</html>
